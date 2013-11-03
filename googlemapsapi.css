@@ -1,3 +1,131 @@
-html { height: 100%; }
-      body { height: 100%; margin: 0; padding: 0; }
-      #map-canvas {height: 100%; }
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600);
+@import url(http://weloveiconfonts.com/api/?family=fontawesome|brandico);
+
+html { height: 100%; } /*needed for google api*/
+
+#map-canvas {
+    margin-top: 10px;
+    height: 100%;
+    width: 100%;
+ }
+body { 
+    height: 100%; 
+    margin: 0; 
+    padding: 20px;
+    color: #000;
+    background-color: #d7e2e7;
+    font:400 .9em/1.9 'Open Sans', Calibri, Helvetica, Arial, sans-serif;
+}
+.custom-select {
+  position : relative;
+  width: 100%;
+  max-width:  25em;
+  margin: 0;
+  cursor: pointer;
+}
+.select,
+.label{
+  display: block;
+}
+.select {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  padding: 0;
+  height: 4em;
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  background: none transparent;
+  border: 0 none;
+}
+.label {
+  position:  relative;
+  padding: 1em;
+  border-radius: .5em;
+  cursor: pointer;
+}
+.label::after {
+  content: "▼";
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 1em;
+  border-left: 1px solid;
+}
+.open .label::after {
+   content: "▲";
+}
+.select-1, .select-2, .select-3, .select-4 {
+   background: #224851;
+   color: #fff;
+  border-bottom: .25em solid darken(#f2bb18, 10);
+  &:after {
+     border-color: darken(#224851, 10);
+  }
+}
+#navPosition {
+    display: block;
+    margin-left: 720px;
+    position: relative; /*from fixed*/
+    z-index: 2;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+#navTab {
+    width: 50px;
+    position: absolute;
+    left: 44%;
+    bottom: -31px;
+}
+#specificNavId {
+    width: 400px;
+    margin: 15px auto 0 auto;
+}
+#specificNavId a {
+    display: inline-block;
+    text-decoration: none;
+}
+#specificNavId span {
+    border: 1px solid #fff;
+    border-radius: 8px;
+    color: #546d7a;
+    opacity: 0.7;
+    font-family: fontawesome, brandico, sans serif;
+    font-size: 30px;
+    text-shadow: none;
+    padding: 11px;
+}
+#specificNavId span:hover {
+    color: #f90;
+    background: #f5f6f6; /* Old browsers */
+    background: -moz-linear-gradient(top, #f5f6f6 0%, #dbdce2 21%, #b8bac6 49%, #dddfe3 80%, #f5f6f6 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f6f6), color-stop(21%,#dbdce2), color-stop(49%,#b8bac6), color-stop(80%,#dddfe3), color-stop(100%,#f5f6f6)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f5f6f6 0%,#dbdce2 21%,#b8bac6 49%,#dddfe3 80%,#f5f6f6 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f5f6f6 0%,#dbdce2 21%,#b8bac6 49%,#dddfe3 80%,#f5f6f6 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f5f6f6 0%,#dbdce2 21%,#b8bac6 49%,#dddfe3 80%,#f5f6f6 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #f5f6f6 0%,#dbdce2 21%,#b8bac6 49%,#dddfe3 80%,#f5f6f6 100%); /* W3C */
+    
+    /*Background gradient is: Grey Pipe*/
+}
+#navTab span {
+    border: 1px solid #000;
+    border-radius: 0px 0px 8px 8px;
+    color: #000;
+    font-family: fontawesome, sans-serif;
+    font-size: 30px;
+    text-shadow: none;
+    padding: 1px 11px;
+    cursor: pointer;
+}
+#specificNavId span,
+#navTab span {
+    background: #e2e2e2; 
+    background: -moz-linear-gradient(top, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%); /*Firefox.6+*/
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e2e2e2), color-stop(50%, #dbdbdb), color-stop(51%, #d1d1d1), color-stop(100%, #fefefe)); /* Chrome, Safari4+*/
+    background: -webkit-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* W3C */
+}
