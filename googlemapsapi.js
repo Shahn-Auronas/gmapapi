@@ -1,15 +1,14 @@
+////////////////////////////////////////////////////////////////
+//-----------------Google Maps API-------------------------/////
+////////////////////////////////////////////////////////////////
 (function () {
     "use strict";
     function initialize() {
         var mapOptions,
             map,
+            tableId = "1iPnUw-b_lCjRpna46ui0zI_6n1AplacaENv0aWE",
+            locationColumn = 'Location',
             layer,
-            infoWindow = new google.maps.InfoWindow(),
-            site,
-            sale,
-            coordinate,
-            createMarker,
-            marker,
             jKCoords,
             jackLondon,
             dTCoords,
@@ -29,10 +28,7 @@
                 }
             ],
             styledMap = new google.maps.StyledMapType(styles,
-                {
-                    name: "Styled Map"
-                }
-            );  
+                { name: "Styled Map" });
         mapOptions = {
             center: new google.maps.LatLng(37.805433, -122.258539),
             zoom: 13,
@@ -42,9 +38,9 @@
         };
         map = new google.maps.Map(document.getElementById("map-canvas"),
                 mapOptions);
+               
         map.mapTypes.set("map_style", styledMap);
         map.setMapTypeId("map_style");
-        
         jKCoords = [
             new google.maps.LatLng(37.80121, -122.29229),
             new google.maps.LatLng(37.80071, -122.29202),
@@ -130,10 +126,11 @@
         jackLondon = new google.maps.Polygon({
             paths: jKCoords,
             strokeColor: "#C9B0D6",
-            strokeOpacity: 0.3,
+            strokeOpacity: 0.6,
             strokeWeight: 1,
             fillColor: "#C9B0D6",
-            fillOpacity: 0.45,
+            fillOpacity: 0.4,
+            clickable: false,
             map: map
         });
         dTCoords = [
@@ -153,18 +150,19 @@
             new google.maps.LatLng(37.79945, -122.27645)
         ];
         downTown = new google.maps.Polygon({
-            paths:dTCoords,
+            paths: dTCoords,
             strokeColor: "#D4c4A4",
-            strokeOpacity: 0.3,
+            strokeOpacity: 0.6,
             strokeWeight: 1,
             fillColor: "#D4c4A4",
-            fillOpacity: 0.45,
+            fillOpacity: 0.4,
+            clickable: false,
             map: map
         });
         uTCoords = [
             new google.maps.LatLng(37.80544, -122.26612),
             new google.maps.LatLng(37.8067, -122.2698),
-            new google.maps.LatLng(37.8064,	-122.27057),
+            new google.maps.LatLng(37.8064, -122.27057),
             new google.maps.LatLng(37.80639, -122.27176),
             new google.maps.LatLng(37.80807, -122.27614),
             new google.maps.LatLng(37.81119, -122.27421),
@@ -176,17 +174,18 @@
             new google.maps.LatLng(37.81548, -122.26449),
             new google.maps.LatLng(37.81531, -122.26384),
             new google.maps.LatLng(37.81382, -122.26255),
-            new google.maps.LatLng(37.8125,	-122.26178),
+            new google.maps.LatLng(37.8125, -122.26178),
             new google.maps.LatLng(37.81077, -122.26251),
             new google.maps.LatLng(37.80907, -122.26298)
         ];
         upTown = new google.maps.Polygon({
-            paths:uTCoords,
+            paths: uTCoords,
             strokeColor: "#B3D6B3",
-            strokeOpacity: 0.3,
+            strokeOpacity: 0.6,
             strokeWeight: 1,
             fillColor: "#B3D6B3",
-            fillOpacity: 0.45,
+            fillOpacity: 0.4,
+            clickable: false,
             map: map
         });
         lMCoords = [
@@ -209,12 +208,13 @@
             new google.maps.LatLng(37.79275, -122.26248)
         ];
         lakeMeritt = new google.maps.Polygon({
-            paths:lMCoords,
+            paths: lMCoords,
             strokeColor: "#D2A7A7",
-            strokeOpacity: 0.3,
+            strokeOpacity: 0.6,
             strokeWeight: 1,
             fillColor: "#D2A7A7",
-            fillOpacity: 0.45,
+            fillOpacity: 0.4,
+            clickable: false,
             map: map
         });
         jackLondon.setMap(map);
@@ -223,28 +223,81 @@
         lakeMeritt.setMap(map);
         layer = new google.maps.FusionTablesLayer({
             query: {
-                select: 'Location',
-                from: "1iPnUw-b_lCjRpna46ui0zI_6n1AplacaENv0aWE"
+                select: locationColumn,
+                from: tableId
             },
             map: map
         });
-        createMarker = function (coordinate, site, sale) {
-            marker = new google.maps.Marker({
-                map: map,
-                position: coordinate,
-                icon: {
-                    url: "http://www.colourbox.com/preview/5263992-735837-vector-version-real-estate-icon-eps-10-illustration-easy-to-edit.jpg",
-                    size: new google.maps.Size(10, 10)
-                }
-            });
-            google.maps.event.addEventListener(marker, "click", function (event) {
-                infoWindow.setPosition(coordinate);
-                infoWindow.setContent(site + "<br>Sale? " + sale);
-                infoWIndow.open(map);
-            });
-        };
         layer.setMap(map);
-    }   
+        google.maps.event.addDomListener(document.getElementById("subMarket"),
+            "change", function () {
+                updateWithSubMarket(layer, tableId, locationColumn);
+        });
+    }
+    function updateWithSubMarket(layer, tableId, locationColumn) {
+            var subMarket = document.getElementById("subMarket").value;
+            if (subMarket === "Downtown") {
+                layer.setOptions({
+                    query: {
+                        select: locationColumn,
+                        from: tableId,
+                        where: "Submarket = '" + subMarket + "'"
+                    }
+                });
+            } else if (subMarket === "Uptown") {
+                layer.setOptions({
+                    query: {
+                        select: locationColumn,
+                        from: tableId,
+                        where: "Submarket = '" + subMarket + "'"
+                    }
+                });
+            } else if (subMarket === "Lake Merritt") {
+                layer.setOptions({
+                    query: {
+                        select: locationColumn,
+                        from: tableId,
+                        where: "Submarket = '" + subMarket + "'"
+                    }
+                });
+            } else if (subMarket === "Jack London") {
+                layer.setOptions({
+                    query: {
+                        select: locationColumn,
+                        from: tableId,
+                        where: "Submarket = '" + subMarket + "'"
+                    }
+                });
+            } else {
+                layer.setOptions({
+                    query: {
+                        select: locationColumn,
+                        from: tableId
+                    }
+                });
+            }
+        }
     google.maps.event.addDomListener(window, "load", initialize);
 }());
-        
+
+////////////////////////
+//Select effects
+/////////////////////
+
+(function () {
+    $("select").on("click" , function() {
+        $(this).parent(".custom-select").toggleClass("open");
+    });
+    $(document).mouseup(function (e) {
+        var container = $(".custom-select");
+        if (container.has(e.target).length === 0) {
+            container.removeClass("open");
+        }
+    });
+    $("select").on("change" , function() {
+      var selection = $(this).find("option:selected").text(),
+          labelFor = $(this).attr("id"),
+          label = $("[for='" + labelFor + "']");
+      label.find(".selection-choice").html(selection);
+    });
+}());
