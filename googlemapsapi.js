@@ -41,6 +41,8 @@
                
         map.mapTypes.set("map_style", styledMap);
         map.setMapTypeId("map_style");
+        //submarket layers to be added back, slowing down marker infoboxes
+        /* 
         jKCoords = [
             new google.maps.LatLng(37.80121, -122.29229),
             new google.maps.LatLng(37.80071, -122.29202),
@@ -221,6 +223,7 @@
         downTown.setMap(map);
         upTown.setMap(map);
         lakeMeritt.setMap(map);
+        */
         layer = new google.maps.FusionTablesLayer({
             query: {
                 select: locationColumn,
@@ -233,6 +236,7 @@
             "change", function () {
                 updateWithSubMarket(layer, tableId, locationColumn);
         });
+        setMarkers(map, sites);
     }
     function updateWithSubMarket(layer, tableId, locationColumn) {
             var subMarket = document.getElementById("subMarket").value;
@@ -277,8 +281,54 @@
                 });
             }
         }
+    //test
+    var sites = [
+        new google.maps.LatLng(37.80121, -122.29229),
+        new google.maps.LatLng(37.80071, -122.29202),
+        new google.maps.LatLng(37.80046, -122.29159),
+        new google.maps.LatLng(37.80004, -122.29077),
+        new google.maps.LatLng(37.79979, -122.28958),
+        new google.maps.LatLng(37.79941, -122.28862),
+        new google.maps.LatLng(37.79836, -122.28472),
+        new google.maps.LatLng(37.79715, -122.28146),
+        new google.maps.LatLng(37.79622, -122.27933)
+    ];
+            
+    function setMarkers(map, locations) {
+        var images,
+            shapes,
+            i,
+            site,
+            myLatLng,
+            marker;
+        //turn market into custom image
+        image = {
+            url: "http://www.colourbox.com/preview/5263992-735837-vector-version-real-estate-icon-eps-10-illustration-easy-to-edit.jpg",
+            size: new google.maps.Size(20, 32),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(0, 32)
+        };
+        //shapes: clickable region of the icon
+        shape = {
+            coord: [1, 1, 1, 20, 18, 20, 18, 1],
+            type: "poly"
+        };
+        for (i = 0; i < locations.length; i += 1) {
+            site = locations[i];
+            myLatLng = new google.maps.LatLng(site[1], site[2]);
+            marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                icon: image,
+                shape: shape,
+                title: site[0],
+                zIndex: site[3]
+            });
+        }
+    }
     google.maps.event.addDomListener(window, "load", initialize);
 }());
+
 ////////////////////////
 //Select effects
 /////////////////////
