@@ -1,6 +1,12 @@
-////////////////////////////////////////////////////////////////
-//-----------------Google Maps API-------------------------/////
-////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+//-----------------Google Maps API----------------------------------/////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+//-------------created by Shahn Auronas-----------------------------/////
+/////////////////////////////////////////////////////////////////////////
+//-Location Map of developable sites in Oakland, in their various----////
+//-states of entitlement---------------------------------------------////
+/////////////////////////////////////////////////////////////////////////
 (function () {
     "use strict";
     function initialize() {
@@ -30,7 +36,7 @@
             styledMap = new google.maps.StyledMapType(styles,
                 { name: "Styled Map" });
         mapOptions = {
-            center: new google.maps.LatLng(37.805433, -122.258539),
+            center: new google.maps.LatLng(37.794433, -122.258539),
             zoom: 13,
             mapTypeControlOptions: {
                 mapTypeIds: [google.maps.MapTypeId.ROADMAP, "map_style"]
@@ -281,7 +287,7 @@
                 });
             }
         }
-    //test
+    
     var sites = [
         new google.maps.LatLng(37.80121, -122.29229),
         new google.maps.LatLng(37.80071, -122.29202),
@@ -295,15 +301,15 @@
     ];
             
     function setMarkers(map, locations) {
-        var images,
-            shapes,
+        var image,
+            shape,
             i,
             site,
             myLatLng,
             marker;
         //turn market into custom image
         image = {
-            url: "http://www.colourbox.com/preview/5263992-735837-vector-version-real-estate-icon-eps-10-illustration-easy-to-edit.jpg",
+            url: "build.jpg",
             size: new google.maps.Size(20, 32),
             origin: new google.maps.Point(0, 0),
             anchor: new google.maps.Point(0, 32)
